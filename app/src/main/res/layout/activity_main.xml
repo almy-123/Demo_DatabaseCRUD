@@ -56,4 +56,9 @@
         android:layout_height="wrap_content"
         android:background="@color/teal_200"/>
 
+    <ListView
+        android:id="@+id/lvNotes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 </LinearLayout>

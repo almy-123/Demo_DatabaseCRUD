@@ -6,8 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     TextView tvDBContent;
     EditText etContent;
     ArrayList<Note> al;
+    ListView lvNotes;
+    ArrayAdapter aa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         btnRetrieve = findViewById(R.id.btnRetrieve);
         etContent = findViewById(R.id.etContent);
         tvDBContent = findViewById(R.id.tvDBContent);
+        lvNotes = findViewById(R.id.lvNotes);
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +70,21 @@ public class MainActivity extends AppCompatActivity {
                             tmp.getNoteContent() + "\n";
                 }
                 tvDBContent.setText(txt);
+                aa.notifyDataSetChanged();
+            }
+        });
+
+        aa = new ArrayAdapter<Note>(MainActivity.this, android.R.layout.simple_list_item_1, al);
+        lvNotes.setAdapter(aa);
+
+        lvNotes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Note target = al.get(position);
+
+                Intent i = new Intent(MainActivity.this, EditActivity.class);
+                i.putExtra("data", target);
+                startActivityForResult(i, 9);
             }
         });
 
@@ -74,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent i = new Intent(MainActivity.this, EditActivity.class);
                 i.putExtra("data", target);
-//                startActivity(i);
                 startActivityForResult(i, 9);
             }
         });
