@@ -1,5 +1,6 @@
 package sg.edu.rp.id19037610.demodatabasecrud;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -73,9 +74,18 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent i = new Intent(MainActivity.this, EditActivity.class);
                 i.putExtra("data", target);
-                startActivity(i);
+//                startActivity(i);
+                startActivityForResult(i, 9);
             }
         });
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK && requestCode == 9){
+            btnRetrieve.performClick();
+        }
     }
 }
