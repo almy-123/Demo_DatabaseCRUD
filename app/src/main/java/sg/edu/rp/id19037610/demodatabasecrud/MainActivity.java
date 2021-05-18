@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button btnAdd, btnEdit, btnRetrieve;
     TextView tvDBContent;
-    EditText etContent;
+    EditText etContent, etSearch;
     ArrayList<Note> al;
     ListView lvNotes;
     ArrayAdapter aa;
@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         etContent = findViewById(R.id.etContent);
         tvDBContent = findViewById(R.id.tvDBContent);
         lvNotes = findViewById(R.id.lvNotes);
+        etSearch = findViewById(R.id.etSearch);
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,9 +59,18 @@ public class MainActivity extends AppCompatActivity {
         btnRetrieve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                String filter = etSearch.getText().toString();
+
                 DBHelper dbh = new DBHelper(MainActivity.this);
                 al.clear();
-                al.addAll(dbh.getAllNotes());
+
+                if (filter.isEmpty()){
+                    al.addAll(dbh.getAllNotes());
+                }else{
+                    al.addAll(dbh.getFilteredNotes(filter));
+                }
+
                 dbh.close();
 
                 String txt = "";
